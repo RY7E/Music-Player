@@ -327,3 +327,9 @@ h2{
     width: 10vw;
     cursor: pointer;
 }
+.ri-shuffle-line:hover{
+    cursor: pointer;
+}
+.ri-loop-left-line:hover{
+    cursor: pointer;
+}

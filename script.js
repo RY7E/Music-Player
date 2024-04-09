@@ -14,7 +14,7 @@ var songs = [
         url: "./assets/Feels Like Summer.mp3",
         cover: "./assets/PublicOrder.jpg",
         artist: "Public Order",
-        length: '2:29'
+        length: '2:45'
     },
     {
         songName: "Genghis Khan",
@@ -35,7 +35,7 @@ var songs = [
         url: "./assets/Photograph.mp3",
         cover: "./assets/EdSheeran.jpg",
         artist: "Ed Sheeran",
-        length: '4:18'
+        length: '4:33'
     },
     {
         songName: "Until I Found You",
@@ -82,6 +82,35 @@ var currentTimeDisplayArea = document.querySelector('.song-current-time');
 var songLengthDisplay = document.querySelector('.song-length-display');
 var slider = document.querySelector('#duration_slider');
 
+var shuffleButton = document.querySelector('.ri-shuffle-line');
+var loopButton = document.querySelector('.ri-loop-left-line');
+
+var autoPlay = true;
+var loop = false;
+var shuffle = false;
+
+shuffleButton.addEventListener('click', function(){
+    if (shuffle == false) {
+        shuffle = true;
+        shuffleButton.style.color = "rgb(78, 163, 241)";
+    }
+    else {
+        shuffle = false;
+        shuffleButton.style.color = "white";
+    }
+})
+
+loopButton.addEventListener('click', function(){
+    if (loop == false) {
+        loop = true;
+        loopButton.style.color = "rgb(78, 163, 241)";
+    }
+    else {
+        loop = false;
+        loopButton.style.color = "white";
+    }
+})
+
 function mainFunction(){
     // var songList = document.querySelector(".songs-list");
     var clutter = "";
@@ -125,6 +154,12 @@ function mainFunction(){
     </div>`;
 
     songLengthDisplay.innerHTML = `${songs[selectedSong].length}`
+
+    // if (autoPlay == true) {
+    //     if (audio.currentTime == audio.duration) {
+    //         goForward();
+    //     }
+    // }
 }
 
 
@@ -162,25 +197,30 @@ play.addEventListener('click', function(){
 })
 
 backward.addEventListener('click', function(){
+    goBackward();
+})
+
+forward.addEventListener('click', function(){
+    goForward();
+})
+function goBackward() {
     if (selectedSong == 0) {selectedSong = number_of_songs - 1}
     else (selectedSong --)
     console.log(selectedSong);
     mainFunction();
     audio.play();
     play.innerHTML = `<i class="ri-pause-large-fill"></i>`;
-    playing = 1;
-})
+}
 
-forward.addEventListener('click', function(){
+function goForward() {
     if (selectedSong == number_of_songs - 1) {selectedSong = 0}
     else {selectedSong ++}
     console.log(selectedSong);
     mainFunction();
     audio.play()
     play.innerHTML = `<i class="ri-pause-large-fill"></i>`;
-    playing = 1;
     // console.log(selectedSong);
-})
+}
 
 function volume_change(){
 	volume_level.innerHTML = volume_slider.value;
@@ -215,6 +255,34 @@ function range_slider() {
         posi = audio.currentTime * (100 / audio.duration);
         slider.value = posi;
     }
+
+    if (loop == true) {
+        if (audio.ended) {
+            slider.value = 0;
+            audio.play();
+        }
+    }
+
+    if (shuffle == true) {
+        if (audio.ended) {
+            selectedSong = getRandomNumber(0,number_of_songs);
+            mainFunction();
+            audio.play()   
+        }
+    }
+
+    if (autoPlay == true){
+        if (audio.ended) {
+            goForward();
+        }
+    }
+    
+}
+
+function getRandomNumber(min, max) {
+    const randomDecimal = Math.random();
+    const randomNumber = min + (randomDecimal * (max - min + 1));
+    return Math.floor(randomNumber);
 }
 
 // known bugs/problems:
@@ -233,5 +301,6 @@ function range_slider() {
 // soultion: make the innerHTML update in the mainFunction(), as to update it as soon as the function is called. The mainFunction() is called everytime the song is changed, thus changing the mini display as well.
 
 // features to implement in the future:
-// - auto play
+// - shuffle, loop [done]
+// - auto play [done]
 // - selectable albums (albums are pre-loaded)

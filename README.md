@@ -2,4 +2,4 @@ This is a music player app, which contains fully funcitonal features, like play,
 Also added autoplay, loop and shufle.
 The music details are stored in the assets folder, from which the JavaScript file loads it.
 
-[Deployed on: ](music-player-kohl-one.vercel.app)
+[Deployed on Vercel](m]usic-player-kohl-one.vercel.app)

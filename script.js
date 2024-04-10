@@ -303,4 +303,6 @@ function getRandomNumber(min, max) {
 // features to implement in the future:
 // - shuffle, loop [done]
 // - auto play [done]
+// - mute button
+// - shuffle functionality revamp
 // - selectable albums (albums are pre-loaded)
